@@ -1,0 +1,19 @@
+# Install in this order to avoid dependency resolution issues
+
+# Core ML dependencies
+torch>=2.0.0
+numpy>=1.24.0
+
+# NLP and embeddings
+sentence-transformers>=2.2.2
+
+# Vector database
+qdrant-client>=1.7.0
+
+# LLM Integration
+anthropic>=0.39.0
+
+# Utilities
+python-dotenv>=1.0.0
+pydantic>=2.0.0
+typing-extensions>=4.0.0
