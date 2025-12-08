@@ -13,7 +13,7 @@ class ClaudeAnalyzer:
     def __init__(
         self,
         api_key: Optional[str] = None,
-        model: str = "claude-3-5-sonnet-20241022",
+        model: str = "claude-sonnet-4-20250514",
         max_tokens: int = 2000
     ):
         """

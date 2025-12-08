@@ -24,7 +24,7 @@ class LogAgent:
         embedding_model: str = "intfloat/e5-base-v2",
         use_llm: bool = True,
         anthropic_api_key: Optional[str] = None,
-        claude_model: str = "claude-3-5-sonnet-20241022"
+        claude_model: str = "claude-sonnet-4-20250514"
     ):
         """
         Initialize LogAgent.

@@ -52,3 +52,6 @@ Thumbs.db
 
 # Qdrant data (if running locally)
 qdrant_storage/
+
+# memo
+github.txt

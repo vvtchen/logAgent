@@ -20,6 +20,15 @@ class LogAgentConfig:
     embedding_model: str = "intfloat/e5-base-v2"
     device: Optional[str] = None  # 'cuda', 'cpu', or None for auto-detect
 
+    # LLM settings (Claude)
+    use_llm: bool = True
+    claude_model: str = "claude-sonnet-4-20250514"
+    anthropic_api_key: Optional[str] = None
+
+    # Codebase settings
+    default_codebase_path: str = "/home/jayden/aoi"  # Default path to index
+    file_pattern: str = "**/*.py"  # Pattern for files to index
+
     # Code splitting settings
     small_file_threshold: int = 1000  # Characters
 
