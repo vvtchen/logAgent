@@ -29,7 +29,8 @@ class CodeChunk:
             "start_line": self.start_line,
             "end_line": self.end_line,
             "parent_context": self.parent_context,
-            "size": len(self.content)
+            "size": len(self.content),
+            "content": self.content  # Store actual code content
         }
 
 

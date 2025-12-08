@@ -53,5 +53,9 @@ Thumbs.db
 # Qdrant data (if running locally)
 qdrant_storage/
 
+# LLM prompts and responses (potentially sensitive)
+prompts/
+*.conversation.txt
+
 # memo
 github.txt

@@ -1,0 +1,141 @@
+╔══════════════════════════════════════════════════════════════════════════╗
+║           LogAgent - Monitor Claude AI Prompts & Responses               ║
+╚══════════════════════════════════════════════════════════════════════════╝
+
+🎯 QUICK START
+
+  See what's sent to Claude:
+  $ ./run.sh analyze_my_project.py your-error.log --verbose
+
+  Save prompts to files:
+  $ ./run.sh analyze_my_project.py your-error.log --save-prompts
+
+  Both (recommended):
+  $ ./run.sh analyze_my_project.py your-error.log -v -s
+
+────────────────────────────────────────────────────────────────────────────
+
+📋 WHAT YOU'LL SEE WITH --verbose
+
+  ================================================================================
+  📤 PROMPT SENT TO CLAUDE (Request #1)
+  ================================================================================
+  Model: claude-sonnet-4-20250514
+  Max tokens: 2000
+  Prompt length: 1547 characters
+  --------------------------------------------------------------------------------
+  You are an expert software engineer analyzing error logs...
+
+  # Error Log
+  [Your error log here]
+
+  # Relevant Code Context
+  [Code chunks found by vector search]
+  ================================================================================
+
+  ⏳ Sending request to Claude API...
+
+  ================================================================================
+  📥 RESPONSE FROM CLAUDE (Request #1)
+  ================================================================================
+  Response length: 892 characters
+  Tokens used: 423 input, 215 output
+  --------------------------------------------------------------------------------
+  ## Root Cause Analysis
+  [Claude's analysis]
+  ================================================================================
+
+────────────────────────────────────────────────────────────────────────────
+
+💾 WHAT GETS SAVED WITH --save-prompts
+
+  Files in ./prompts/ directory:
+    • conversation_20250108_143052_1.txt  ← Full conversation (recommended)
+    • prompt_20250108_143052_1.txt        ← Just the prompt
+    • response_20250108_143052_1.txt      ← Just the response
+
+  View saved conversation:
+  $ cat prompts/conversation_20250108_143052_1.txt
+
+────────────────────────────────────────────────────────────────────────────
+
+🔧 COMMON COMMANDS
+
+  Basic verbose mode:
+  $ ./run.sh analyze_my_project.py error.log -v
+
+  Save to custom directory:
+  $ ./run.sh analyze_my_project.py error.log -s --prompts-dir ./debug
+
+  Get more code context:
+  $ ./run.sh analyze_my_project.py error.log -v --num-results 10
+
+  Lower similarity threshold:
+  $ ./run.sh analyze_my_project.py error.log -v --min-score 0.2
+
+  All options combined:
+  $ ./run.sh analyze_my_project.py error.log \
+      -v -s \
+      --num-results 10 \
+      --min-score 0.2 \
+      --prompts-dir ./my-debug
+
+────────────────────────────────────────────────────────────────────────────
+
+💡 WHY USE THIS
+
+  ✓ Debug unexpected AI responses
+  ✓ See what code context is being sent
+  ✓ Track API token usage and costs
+  ✓ Share conversations with team
+  ✓ Improve your prompts over time
+  ✓ Verify sensitive data not being sent
+
+────────────────────────────────────────────────────────────────────────────
+
+🧹 CLEANUP
+
+  View saved prompts:
+  $ ls -lh prompts/
+
+  Delete all saved prompts:
+  $ rm -rf prompts/
+
+  Delete old prompts (7+ days):
+  $ find prompts/ -type f -mtime +7 -delete
+
+────────────────────────────────────────────────────────────────────────────
+
+📊 TOKEN COSTS
+
+  Each conversation file shows:
+    TOKENS: 423 input, 215 output
+
+  Approximate cost (Claude Sonnet 4):
+    Input:  423 × $3/1M  = $0.00127
+    Output: 215 × $15/1M = $0.00323
+    Total:  ~$0.0045 per request
+
+────────────────────────────────────────────────────────────────────────────
+
+📚 MORE INFO
+
+  Full guide:        cat MONITOR_PROMPTS.md
+  How to use:        cat HOW_TO_USE.md
+  Troubleshooting:   cat TROUBLESHOOTING.md
+
+────────────────────────────────────────────────────────────────────────────
+
+🚀 TRY IT NOW
+
+  $ ./run.sh analyze_my_project.py \
+      logs-from-cambrian-consumer-image-in-cambrian-inference-list-6f5bddc5c4-mrv8m.log \
+      --verbose --save-prompts
+
+  This will:
+    • Show you the full prompt being sent
+    • Display Claude's response
+    • Save everything to ./prompts/
+    • Show token usage
+
+╚══════════════════════════════════════════════════════════════════════════╝

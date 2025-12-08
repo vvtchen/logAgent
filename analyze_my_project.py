@@ -14,22 +14,51 @@ def main():
     # Load environment variables
     load_dotenv()
 
+    import argparse
+
+    parser = argparse.ArgumentParser(
+        description="Analyze error logs with Claude AI"
+    )
+    parser.add_argument(
+        "log_file",
+        help="Path to the error log file"
+    )
+    parser.add_argument(
+        "--verbose", "-v",
+        action="store_true",
+        help="Show prompts sent to Claude and responses (verbose mode)"
+    )
+    parser.add_argument(
+        "--save-prompts", "-s",
+        action="store_true",
+        help="Save prompts and responses to ./prompts/ directory"
+    )
+    parser.add_argument(
+        "--prompts-dir",
+        default="./prompts",
+        help="Directory to save prompts (default: ./prompts)"
+    )
+    parser.add_argument(
+        "--num-results",
+        type=int,
+        default=5,
+        help="Number of relevant code chunks to retrieve (default: 5)"
+    )
+    parser.add_argument(
+        "--min-score",
+        type=float,
+        default=0.3,
+        help="Minimum similarity score (default: 0.3)"
+    )
+
+    args = parser.parse_args()
+
     print("=" * 80)
     print("LogAgent - AI Error Analysis for /home/jayden/aoi")
     print("=" * 80)
     print()
 
-    # Check for log file argument
-    if len(sys.argv) < 2:
-        print("Usage: ./run.sh analyze_my_project.py <log_file>")
-        print()
-        print("Examples:")
-        print("  ./run.sh analyze_my_project.py error.log")
-        print("  ./run.sh analyze_my_project.py logs-from-cambrian-consumer-image-in-cambrian-inference-list-6f5bddc5c4-mrv8m.log")
-        print()
-        sys.exit(1)
-
-    log_file = sys.argv[1]
+    log_file = args.log_file
 
     # Check if log file exists
     if not os.path.exists(log_file):
@@ -45,7 +74,10 @@ def main():
     agent = LogAgent(
         use_memory_db=True,      # Fast in-memory database
         use_llm=True,            # Enable Claude AI
-        claude_model="claude-sonnet-4-20250514"
+        claude_model="claude-sonnet-4-20250514",
+        verbose=args.verbose,    # Show prompts if --verbose
+        save_prompts=args.save_prompts,  # Save prompts if --save-prompts
+        prompts_dir=args.prompts_dir
     )
 
     # Setup
@@ -81,9 +113,9 @@ def main():
 
     result = agent.analyze_error_log_file(
         log_file,
-        num_results=5,      # Get top 5 relevant code chunks
-        min_score=0.3,      # Minimum similarity threshold
-        show_report=True    # Print the full report
+        num_results=args.num_results,  # From --num-results flag
+        min_score=args.min_score,      # From --min-score flag
+        show_report=True               # Print the full report
     )
 
     print()

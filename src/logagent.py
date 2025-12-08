@@ -24,7 +24,10 @@ class LogAgent:
         embedding_model: str = "intfloat/e5-base-v2",
         use_llm: bool = True,
         anthropic_api_key: Optional[str] = None,
-        claude_model: str = "claude-sonnet-4-20250514"
+        claude_model: str = "claude-sonnet-4-20250514",
+        verbose: bool = False,
+        save_prompts: bool = False,
+        prompts_dir: str = "./prompts"
     ):
         """
         Initialize LogAgent.
@@ -38,6 +41,9 @@ class LogAgent:
             use_llm: Whether to use Claude for intelligent analysis (default: True)
             anthropic_api_key: Anthropic API key (or set ANTHROPIC_API_KEY env var)
             claude_model: Claude model to use
+            verbose: If True, print prompts sent to Claude and responses
+            save_prompts: If True, save prompts and responses to files
+            prompts_dir: Directory to save prompts (default: ./prompts)
         """
         print("Initializing LogAgent...")
 
@@ -68,9 +74,16 @@ class LogAgent:
                 if api_key:
                     self.llm_analyzer = ClaudeAnalyzer(
                         api_key=api_key,
-                        model=claude_model
+                        model=claude_model,
+                        verbose=verbose,
+                        save_prompts=save_prompts,
+                        prompts_dir=prompts_dir
                     )
                     print("✓ Claude AI enabled for intelligent analysis")
+                    if verbose:
+                        print("  🔍 Verbose mode: Will show prompts and responses")
+                    if save_prompts:
+                        print(f"  💾 Saving prompts to: {prompts_dir}/")
                 else:
                     print("⚠ ANTHROPIC_API_KEY not found. Falling back to rule-based analysis.")
                     print("  Set ANTHROPIC_API_KEY environment variable to enable Claude AI.")

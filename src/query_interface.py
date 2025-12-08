@@ -62,7 +62,8 @@ class ErrorLogAnalyzer:
         # Generate advice based on relevant code
         if self.use_llm and self.llm_analyzer:
             # Use LLM for intelligent analysis
-            advice = self._generate_llm_advice(error_log, relevant_code)
+            # Only send error summary to LLM, not the entire log file
+            advice = self._generate_llm_advice(error_summary, relevant_code)
             used_llm = True
         else:
             # Fall back to rule-based advice
@@ -110,14 +111,14 @@ class ErrorLogAnalyzer:
 
     def _generate_llm_advice(
         self,
-        error_log: str,
+        error_summary: str,
         relevant_code: List[Dict[str, Any]]
     ) -> str:
         """
         Generate advice using LLM (Claude).
 
         Args:
-            error_log: The error log
+            error_summary: Extracted error summary (NOT the full log file)
             relevant_code: List of relevant code chunks
 
         Returns:
@@ -134,8 +135,9 @@ class ErrorLogAnalyzer:
 
         try:
             # Use LLM to analyze error with context
+            # Pass only the error summary, not the entire log file
             analysis = self.llm_analyzer.analyze_error_with_context(
-                error_log=error_log,
+                error_summary=error_summary,
                 relevant_code=relevant_code,
                 num_context_chunks=3
             )
@@ -161,7 +163,8 @@ class ErrorLogAnalyzer:
             # Fall back to rule-based advice if LLM fails
             print(f"LLM analysis failed: {e}")
             print("Falling back to rule-based advice...")
-            return self._generate_advice(error_log, relevant_code)
+            # Note: Using error_summary for consistency, though rule-based doesn't use it much
+            return self._generate_advice(error_summary, relevant_code)
 
     def _generate_advice(
         self,
